@@ -1,0 +1,44 @@
+{
+  "url": "", 
+  "div_table": "tableBombas", 
+  "id_tabla": "tableBombas", 
+  "columns": [
+    {
+      "bVisible": "F",
+      "sTitle": "Id",
+      "filtrodef": "F",
+      "tipo": "NOSELECT",
+      "campo": "id",
+      "rango": "",
+      "sWidth": 15
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Clave de la Bomba", 
+      "filtrodef": "", 
+      "tipo": "text", 
+      "campo": "claveBomba", 
+      "rango": "igual",
+      "sWidth": 10
+    }, 
+    {
+      "bVisible": "T", 
+      "sTitle": "Fecha de Corte", 
+      "filtrodef": "", 
+      "tipo": "date", 
+      "campo": "fechaCorte",
+      "rango": "lils", 
+      "sWidth": 10
+    }, 
+    {
+      "bVisible": "T", 
+      "sTitle": "Venta", 
+      "filtrodef": "", 
+      "tipo": "moneda", 
+      "campo": "totalVenta", 
+      "rango": "lils",
+      "sWidth": 10
+    }
+  ], 
+  "visible_table": "T"
+}

@@ -1,0 +1,50 @@
+{
+	"forma": {
+		"clave": "nuevocliente",
+		"usuario": "",
+		"menu": "",
+		"tituloformulario": "Crear Registro de Cliente",
+		"descripcion": "",
+		"action": "",
+		"uploadFile": "T"
+	},
+	"elementos": [
+		{
+			"label": "Nombre del Cliente",
+			"name": "nombreCliente",
+			"id": "nombreCliente",
+			"tipo": "text",
+			"rdonly": "F",
+			"maxlength": "0",
+			"defaultvalue": "",
+			"filtro": "T",
+			"required": "T",
+			"message": "Debe agregar el nombre del Cliente"
+		},
+		{
+			"label": "",
+			"name": "cmd",
+			"id": "cmd",
+			"tipo": "hidden",
+			"rdonly": "F",
+			"maxlength": "0",
+			"defaultvalue": "CMDADDCLIENT",
+			"filtro": "F",
+			"required": "",
+			"message": ""
+		},
+		{
+			"label": "",
+			"name": "guardar",
+			"id": "guardar",
+			"tipo": "submit",
+			"rdonly": "F",
+			"maxlength": "0",
+			"defaultvalue": "Guardar",
+			"filtro": "F",
+			"required": "F",
+			"message": ""
+		}
+	]
+}
+

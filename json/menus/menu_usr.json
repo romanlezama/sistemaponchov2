@@ -1,0 +1,35 @@
+{
+	"menu": [
+		{
+			"leyendamenu": "Consultas",
+			"accionmenu": "",
+			"tooltipmenu": "",
+			"deshabilitado": "F",
+			"icon": "fa-search",
+			"submenus": [
+				{
+					"leyendamenu": "Bombas",
+					"accionmenu": "#/consultas/bombas/",
+					"tooltipmenu": "",
+					"deshabilitado": "F",
+					"submenus": []
+				},
+				{
+					"leyendamenu": "Ventas a Clientes",
+					"accionmenu": "#/consultas/ventas/",
+					"tooltipmenu": "",
+					"deshabilitado": "F",
+					"submenus": []
+				}
+			]
+		},
+		{
+			"leyendamenu": "Crear Clientes",
+			"accionmenu": "#/nuevocliente/",
+			"tooltipmenu": "",
+			"deshabilitado": "F",
+			"icon": "fa-edit",
+			"submenus": []
+		}
+	]
+}

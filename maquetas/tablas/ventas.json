@@ -1,0 +1,44 @@
+{
+  "url": "", 
+  "div_table": "tableVentas", 
+  "id_tabla": "tableVentas", 
+  "columns": [
+    {
+      "bVisible": "F",
+      "sTitle": "Id",
+      "filtrodef": "F",
+      "tipo": "NOSELECT",
+      "campo": "id",
+      "rango": "",
+      "sWidth": 15
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Nombre del Cliente", 
+      "filtrodef": "", 
+      "tipo": "text", 
+      "campo": "c.nombreCliente", 
+      "rango": "igual",
+      "sWidth": 10
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Fecha de Venta", 
+      "filtrodef": "", 
+      "tipo": "date", 
+      "campo": "v.fechaVenta",
+      "rango": "lils", 
+      "sWidth": 10
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Venta", 
+      "filtrodef": "", 
+      "tipo": "moneda", 
+      "campo": "v.totalVenta", 
+      "rango": "lils",
+      "sWidth": 10
+    }
+  ], 
+  "visible_table": "T"
+}

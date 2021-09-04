@@ -1,0 +1,54 @@
+.logo-img{
+	width: 40%;
+	padding-bottom: 5px;
+}
+.top-bar-right{
+	padding-top: 15px;
+	font-size: 16px;
+}
+.foto-perfil{
+	width: 26px;
+	height: 26px;
+}
+.row_selected td{
+	background-color: #dbdbdb !important;
+}
+label.error{
+	color: red;
+}
+.right{
+	text-align: right;
+}
+
+#clientes .data-name{
+    width: 20em;
+}
+
+/**
+ * Estilos para el Loading...
+ */
+#loading_overlay {
+	display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+#loading_overlay .loading_message {
+    background: #fff;
+    padding: 0;
+    line-height: 25px;
+    height: 30px;
+    border: 1px solid #fff;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 150px;
+    margin-left: -76px;
+    text-align: center;
+    color: #333;
+    font-weight: 700;
+}
