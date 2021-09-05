@@ -94,7 +94,7 @@ var grid = {
 	*/
 	crear : function( n_json, espacio, botonesCabecera ){
 		$.ajax({
-			url : '/maquetas/tablas/' + n_json + '.json',
+			url : 'maquetas/tablas/' + n_json + '.json',
 			dataType : 'json',
 			cache : false,
 			beforeSend: function(){
@@ -180,6 +180,7 @@ var grid = {
 					searching: false,
 					paginationType: "bootstrap",
 					columns : cols_new,
+					order: [[0,"desc"]],
         			rowCallback: function( row, data ) {
 			            $(row).click(function(e) { // Hago la selecciÃ³n de un registro del Datatable.
 			                if ( $(this).hasClass('row_selected') ) {
@@ -191,6 +192,38 @@ var grid = {
 			                    $( ".habilitaRow" ).prop( 'disabled', false );
 			                }
 			            });
+			        },
+			        "footerCallback": function ( row, data, start, end, display ) {
+			        	//if( grid_id == "otg" || grid_id == "adminotg" ){
+			        		var api = this.api(), data;
+			        		var totalMonto = 0;
+				            //var cRegistradas = 0, cRecibidas = 0, cProceso = 0, cFinalizadas = 0, cEntregadas = 0;
+				            // Remove the formatting to get integer data for summation
+				            var intVal = function ( i ) {
+				                return typeof i === 'string' ?
+				                    i.replace(/[\$,]/g, '')*1 :
+				                    typeof i === 'number' ? i : 0;
+				            };
+				            // Total over all pages
+				            var colMonto = api.column( 3 ).data();
+				            for(var i=0; i<colMonto.length; i++){
+				            	var a = intVal( colMonto[i] );
+				            	totalMonto += a;
+				            	// if( a=="Registrada" )
+			              //       	cRegistradas++;
+			              //       else if( a=="Recibida" )
+			              //       	cRecibidas++;
+			              //       else if( a=="Proceso" )
+			              //       	cProceso++;
+			              //       else if( a=="Finalizada" )
+			              //       	cFinalizadas++;
+			              //       else if( a=="Entregado" )
+			              //       	cEntregadas++;
+				            }
+				            $("#folios_totales").html(
+				            	'<span class="">Total de la Venta: $'+renderers.to_pesos(totalMonto)+'</span>'
+				            ).css( 'text-align', 'left' );
+			        	//}
 			        },
 					language : {
 			            lengthMenu : "Mostrar _MENU_ renglones por página",

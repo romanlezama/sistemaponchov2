@@ -3,9 +3,9 @@ $servername = "localhost";
 $username = "root";
 
 // Windows
-// $password = "";
+$password = "";
 // Ubuntu
-$password = "roman123";
+// $password = "roman123";
 
 $dbname = "gasolinera";
 ?>

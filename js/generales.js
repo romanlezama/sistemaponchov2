@@ -1,7 +1,7 @@
 var oGenerales = {
 	fnConsultaCMD : function( oParams, fnSuccess, bAsync ){
 		$.ajax({
-			'url': '/process.php',
+			'url': 'process.php',
 			'data': oParams,
 			'async': ( typeof bAsync !== "undefined" ? bAsync : true ),
 			'type': 'POST',
@@ -17,7 +17,7 @@ var oGenerales = {
 		var info_obtained = (function () {
 	        var info_obtained = null;
 	        $.ajax({
-	            'url': '/process.php',
+	            'url': 'process.php',
 	            'data': oParams,
 	            'async': false,
 	            'type': "POST",

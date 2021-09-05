@@ -165,9 +165,9 @@ if __name__ == "__main__":
     
     # Dirección donde está guardado el Excel
     # Windows
-    #file_url = 'C:/xampp/htdocs/sistemaponcho/excel_files/{}.xlsx'.format(name_file)
+    file_url = 'C:/xampp/htdocs/sistemaponchov2/excel_files/{}.xlsx'.format(name_file)
     # Ubuntu
-    file_url = '/var/www/html/sistemaponchov2/excel_files/{}.xlsx'.format(name_file)
+    #file_url = '/var/www/html/sistemaponchov2/excel_files/{}.xlsx'.format(name_file)
     
     # Obtengo un diccionario con las páginas y el contenido de cada una
     dict_all_sheets_excel = read_excel_sheets(file_url=file_url, all_sheets=True)

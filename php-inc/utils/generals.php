@@ -15,10 +15,10 @@ function getPostVar($name, $default=''){
     		//return safe_string_mysql($varPost);
     		return $_POST[$name];
        }
-    if($default!='')
-    	$varPost = $filter->process($default);
-        return safe_string_mysql($default);
-        //return $default;
+    // if($default!='')
+    // 	$varPost = $filter->process($default);
+    //     return safe_string_mysql($default);
+    //     //return $default;
     return '';
 }
 

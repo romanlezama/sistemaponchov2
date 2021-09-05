@@ -25,7 +25,7 @@ var forma = {
 	consulta_json : function( nombre, espacio, data ){
 		var data_send = ( typeof data !== "undefined" ) ? data : {};
 		//var url_send = 'accion/forma';
-		var url_send = '/json/'+nombre+'.json';
+		var url_send = 'json/'+nombre+'.json';
 		$.ajax({ // Realiza la petición del archivo .json
 			url : url_send, // URL donde se encuentra el archivo en cuestión
 			dataType : 'json', // La respuesta se recibirá en formato JSON
@@ -64,7 +64,7 @@ var forma = {
 			enctype = 'enctype="multipart/form-data"';
 		}
 
-		var form = $( '<form class="form-horizontal" method="POST" action="/process.php" role="form" id="form' + forma.clave + '" parsley-validate novalidate '+enctype+'/>' );
+		var form = $( '<form class="form-horizontal" method="POST" action="process.php" role="form" id="form' + forma.clave + '" parsley-validate novalidate '+enctype+'/>' );
 		/**
 		* Empiezo con la generación de los elementos
 		*/
@@ -438,9 +438,13 @@ var forma = {
 					form.append( add_elemento( e.label, sbt, e.id, e.name, solonumeros ) );
 					break;
 				case "file":
-					var inputFile = $( '<input id="'+e.id+'" type="'+e.tipo+'" name="'+e.name+'" accept="image/*"/>' );
+					if(typeof e.aceptar != "undefined" && e.aceptar == "excel"){
+						var inputFile = $( '<input id="'+e.id+'" type="'+e.tipo+'" name="'+e.name+'" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>' );
+					}else{
+						var inputFile = $( '<input id="'+e.id+'" type="'+e.tipo+'" name="'+e.name+'" accept="image/*"/>' );
+					}
 					form.append( add_elemento( e.label, sbt, e.id, e.name, inputFile, 'sinIco' ) );
-					requeridos[ e.name ] = { accept: "png|jpg|gif", required: (e.required=="T"?true:false) };
+					requeridos[ e.name ] = { accept: "png|jpg|gif|xls|xlsx", required: (e.required=="T"?true:false) };
 					mensajes_requeridos[ name_req ] = e.message;
 					break;
 				case "colorpicker":
