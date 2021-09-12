@@ -12,18 +12,19 @@ $bombas = $json_info->{'bombas'};
 $clientes = $json_info->{'clientes'};
 $fulldate_post = $json_info->{'full_date'};
 $fulldate = date('Y-m-d', strtotime($fulldate_post));
+$fechaCarga = date("Y-m-d");
 #echo 'Fecha de Corte = '.$fulldate;
 #echo '========= BOMBAS ==========';
 $resultadoBombas = '';
 $queryAll = '';
 foreach ($bombas as $nameBomba => $value) {
-	$queryAll .= 'INSERT INTO bombas (claveBomba, totalVenta, fechaCorte) VALUES ("'.$nameBomba.'", '.$value.', "'.$fulldate.'");';
+	$queryAll .= 'INSERT INTO bombas (claveBomba, totalVenta, fechaCorte, fechaCarga) VALUES ("'.$nameBomba.'", '.$value.', "'.$fulldate.'", "'.$fechaCarga.'");';
 }
 #echo '========= CLIENTES ==========';
 $resultado = '';
 //$queryClientes = '';
 foreach ($clientes as $idCliente => $value) {
-	$queryAll .= 'INSERT INTO ventasclientes (idCliente, totalVenta, fechaVenta) VALUES ('.$idCliente.', '.$value.', "'.$fulldate.'");';
+	$queryAll .= 'INSERT INTO ventasclientes (idCliente, totalVenta, fechaVenta, fechaCarga) VALUES ('.$idCliente.', '.$value.', "'.$fulldate.'", "'.$fechaCarga.'");';
 }
 if ($conn->multi_query( $queryAll ) === TRUE){
 	$resultado = 'Creados correctamente';

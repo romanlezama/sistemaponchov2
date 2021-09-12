@@ -31,7 +31,10 @@ var renderers = {
 	},
 	to_date : function( fecha ){
 		if(fecha != null){
-	        return moment(fecha).format('DD/MM/YYYY');
+			return fecha;
+			aFecha = fecha.split('-');
+			return aFecha[2]+'/'+aFecha[1]+'/'+aFecha[0];
+	        //return moment(fecha).format('DD/MM/YYYY');
 	    } else {
 	        return "";
 	    }
@@ -169,6 +172,11 @@ var grid = {
 	            					default: break;
 	            				}
 	            				//<span class="label label-success">Active</span>
+	            			}
+	            			break;
+	            		case 'text':
+	            			c_new[ 'render' ] = function( data, type, row, meta ){
+	            				return data.replace(/_/g, ' ');
 	            			}
 	            			break;
 	            		default : break;
@@ -363,7 +371,7 @@ var grid = {
 			    }).on('changeDate', function(ev){
 				    $(this).datepicker('hide');
 				});
-			    //input.addClass('date_picker');
+			    input.addClass('date_picker');
 			}
 			return input;
 		}
@@ -435,7 +443,7 @@ var grid = {
 		var oFilter = JSON.parse( filtro_json_to_post );
 		$.each(oFilter, function(i, v){
 			if( !/^li_|^ls_/.test(i) ){
-				aFiltros.push( i + ' = "' + v + '"' );
+				aFiltros.push( i + ' LIKE "%' + v.replace(/ /g, '_') + '%"' );
 			}else if(/^li_/.test(i)){
 				i = i.split('li_')[1];
 				if(/\d{2}\/\d{2}\/\d{4}/.test(v)){

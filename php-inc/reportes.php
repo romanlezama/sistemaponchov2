@@ -59,16 +59,16 @@ if ($conn->connect_error) {
 }
 
 if($nombre == "tableBombas"){
-  $sql = "SELECT * FROM bombas";
+  $sql = "SELECT id, claveBomba, fechaCorte, totalVenta, fechaCarga FROM bombas";
   if($filtro_json != "{}"){
     $sql .= " WHERE " . $filtro_json;
-    $condiciones = str_replace( array('>=', '<=', '=', 'AND'), array('mayor o igual que', 'menor o igual que', 'igual a', 'y'), $filtro_json );
+    $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
   }
 }else{
-  $sql = "SELECT v.id, c.nombreCliente, v.fechaVenta, v.totalVenta FROM ventasclientes v JOIN clientes c WHERE v.idCliente = c.id";
+  $sql = "SELECT v.id, c.nombreCliente, v.fechaVenta, v.totalVenta, v.fechaCarga FROM ventasclientes v JOIN clientes c WHERE v.idCliente = c.id";
   if($filtro_json != "{}"){
     $sql .= " AND " . $filtro_json;
-    $condiciones = str_replace( array('>=', '<=', '=', 'AND'), array('mayor o igual que', 'menor o igual que', 'igual a', 'y'), $filtro_json );
+    $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
   }
 }
 

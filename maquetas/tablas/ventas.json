@@ -38,6 +38,15 @@
       "campo": "v.totalVenta", 
       "rango": "lils",
       "sWidth": 10
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Fecha de Carga", 
+      "filtrodef": "", 
+      "tipo": "date", 
+      "campo": "v.fechaCarga",
+      "rango": "lils", 
+      "sWidth": 10
     }
   ], 
   "visible_table": "T"

@@ -62,6 +62,8 @@ if (!$invalidateCMD) {
 		case "GETCLIENTES": include("php-inc/getclientes.php"); break;
 		case "CMDSAVEINFO": include("php-inc/guardainfo.php"); break;
 		case "CMDADDCLIENT": include("php-inc/guardacliente.php"); break;
+		case "CMDADDTEXT4CLIENT": include("php-inc/guardatextcliente.php"); break;
+		case "GETTEXT4CLIENT": include("php-inc/gettxtsclientes.php"); break;
 	    // //Login cmd CMDLOGIN
 	    // case "CMDLOGIN": include("$inc_dir/procesos/usuarios/vallogin.php");break;
 

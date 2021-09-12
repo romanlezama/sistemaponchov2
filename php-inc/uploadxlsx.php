@@ -49,7 +49,7 @@ else{
      
     // Return response 
     if($uploadStatus == 1){
-        passthru ( "C:\\Users\\roman\\AppData\\Local\\Programs\\Python\\Python38-32\\python  C:\\xampp\\htdocs\\sistemaponchov2\\lee_excel.py \"".$newNameDocto."\"" );
+        passthru ( "C:\\Users\\ajuar\\AppData\\Local\\Programs\\Python\\Python39\\python  C:\\xampp\\htdocs\\sistemaponchov2\\lee_excel.py \"".$newNameDocto."\"" );
     } else {
         echo json_encode($response);
     }

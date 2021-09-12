@@ -547,28 +547,101 @@ var forma = {
                     // Agrego la información de los Clientes
                     clientes = oGenerales.fnGetInfoFromCMD({cmd: 'GETCLIENTES'});
                     console.log( 'Clientes desde la BD '+JSON.stringify(clientes) );
+                    var oClientes = {};
+                    $.each( clientes, function(nomc, idc){
+                    	oClientes[ idc ] = nomc;
+                    } );
+                    var aClientesSelected = [];
+                    txtsClientes = oGenerales.fnGetInfoFromCMD({cmd: 'GETTEXT4CLIENT'});
+                    console.log(txtsClientes);
                     jQuery.each( resp['clientes'], function(cliente, val){
                         if(typeof clientes[cliente] == "undefined" ){
                             console.error("No se encontro el cliente "+cliente);
-                            row = $('<p class="data-row text-danger">'+
-                                '<span class="data-name">'+cliente+'<code>Este cliente no se encuentra en la Base de Datos</code></span>'+
-                                '<span class="data-value">'+renderers.to_pesos(val)+'</span>'+
-                            +'</p>');
+                            clienteLower = cliente.toLowerCase().replace(/ /g, '_');
+                            if(typeof txtsClientes[clienteLower] != "undefined"){
+                            	row = $('<p class="data-row">'+
+	                                '<span class="data-name">'+cliente+' <i>['+oClientes[txtsClientes[ clienteLower ]]+']</i></span>'+
+	                                '<span class="data-value clientsAccepted" data-valuecliente="'+val+'" data-idclieteselected="'+(txtsClientes[ clienteLower ])+'">'+renderers.to_pesos(val)+'</span>'+
+	                            +'</p>');
+	                            aClientesSelected.push( txtsClientes[ clienteLower ] );
+                            }else{
+                            	row = $('<p class="data-row text-danger">'+
+	                                '<span class="data-name"><nombrecliente>'+cliente+'</nombrecliente><code>Este cliente no se encuentra en la Base de Datos</code></span>'+
+	                                '<a href="#" data-textocliente="'+cliente+'" data-valuecliente="'+val+'" data-type="select2" class="editInLine">Seleccionar</a>'+
+	                                '<span class="data-value">'+renderers.to_pesos(val)+'</span>'+
+	                            +'</p>');
+                            }
                         } else {
-                            info_to_save['clientes'][ clientes[ cliente ] ] = val;
+                            //info_to_save['clientes'][ clientes[ cliente ] ] = val;
                             row = $('<p class="data-row">'+
                                 '<span class="data-name">'+cliente+'</span>'+
-                                '<span class="data-value">'+renderers.to_pesos(val)+'</span>'+
+                                '<span class="data-value clientsAccepted" data-valuecliente="'+val+'" data-idclieteselected="'+(clientes[ cliente ])+'">'+renderers.to_pesos(val)+'</span>'+
                             +'</p>');
+                            aClientesSelected.push( clientes[ cliente ] );
                         }
                         $("#clientes").append( row );
                     } );
+
+                    //*******************************************
+					/*	Seleccionar Cliente inline
+					/********************************************/                    
+					var aClientes = [];
+                    $.each( clientes, function(nomc, idc){
+                    	if( ! aClientesSelected.includes( idc ) ){
+                    		aClientes.push({ value: idc, text: nomc });
+                    	}
+                    } );
+                    $('.editInLine').editable({
+						source: aClientes,
+						url: 'process.php',
+						send: 'always',
+						params: function(params) {
+							var newParams = {};
+						    newParams.cmd = "CMDADDTEXT4CLIENT";
+						    newParams.textCliente = $(this).data('textocliente').toLowerCase().replace(/ /g, '_');
+						    newParams.idCliente = params.value;
+						    $(this).data('idclieteselected', params.value);
+						    return newParams;
+						},
+						success: function(responseText, newValue) {
+							response = JSON.parse(responseText);
+						    $(this).parent().find('code').remove();
+							if( response.msg == "Ok" ){
+								oGenerales.fnNotificacion( '', 'Mensaje', "Texto relacionado correctamente." );
+							}else{
+								oGenerales.fnNotificacion( 'error', 'Error', "Ocurrió un error" );
+								return "Error al actualizar";
+							}
+						},
+						select2: {
+							width: 200,
+							placeholder: 'Clientes',
+							allowClear: true
+						}
+					});
+
                     var btnSaveInfo = $('<button type="button" class="btn btn-success" id="saveInfo">Guardar Información</button>');
                     btnSaveInfo.click(function(){
                     	oGenerales.fnAlert({
                     		msg: '<strong>La información será guardada en la Base de Datos, los clientes marcados en rojo no se guardaran</strong>',
                     		fnAccept: function(){
-                    			showLoadingOverlay();
+                    			//showLoadingOverlay();
+                    			info_to_save[ 'clientes' ] = {}
+                    			$(".editInLine").each(function(index){
+                    				id_client = $(this).data('idclieteselected');
+                    				val_client = $(this).data('valuecliente');
+                    				if(typeof id_client != "undefined"){
+										info_to_save[ 'clientes' ][ id_client ] = val_client;
+                    				}
+                    			});
+                    			$(".clientsAccepted").each(function(index){
+                    				id_client = $(this).data('idclieteselected');
+                    				val_client = $(this).data('valuecliente');
+                    				if(typeof id_client != "undefined"){
+										info_to_save[ 'clientes' ][ id_client ] = val_client;
+                    				}
+                    			});
+								console.log(info_to_save);
 		                    	oGenerales.fnConsultaCMD({'cmd': 'CMDSAVEINFO', 'info_to_save': JSON.stringify( info_to_save )}, function(data){
 		                    		hideLoadingOverlay();
 		                            if( /^Error:/.test(data.msg) ){

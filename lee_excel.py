@@ -150,7 +150,7 @@ def process_notas_sheet( content_sheet ):
                             continue
                     nameClient = get_client_name( c.lower() )
                     dict_ventas_clientes.update({
-                        nameClient.upper(): monto_vendido
+                        nameClient.lower().replace('.', ''): monto_vendido
                     })
             except:
                 continue
