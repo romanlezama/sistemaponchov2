@@ -75,6 +75,8 @@ if (!$invalidateCMD) {
 
      //  //Recupera Catalogo
 	  case "CMDREPORTES":include("php-inc/reportes.php");break;
+	  // Borra registro
+	  case "CMDBORRADATO":include("php-inc/borradato.php");break;
 
      //  //Recupera datos iniciales para OT
 	    // case "CMDDATGENERAL":include("$inc_dir/procesos/ordentrabajo/otgeneral.php");break;

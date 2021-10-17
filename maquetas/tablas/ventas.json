@@ -1,7 +1,7 @@
 {
   "url": "", 
-  "div_table": "tableVentas", 
-  "id_tabla": "tableVentas", 
+  "div_table": "ventasclientes", 
+  "id_tabla": "ventasclientes", 
   "columns": [
     {
       "bVisible": "F",

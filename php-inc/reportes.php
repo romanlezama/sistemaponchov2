@@ -58,7 +58,7 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 
-if($nombre == "tableBombas"){
+if($nombre == "bombas"){
   $sql = "SELECT id, claveBomba, fechaCorte, totalVenta, fechaCarga FROM bombas";
   if($filtro_json != "{}"){
     $sql .= " WHERE " . $filtro_json;

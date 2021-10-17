@@ -1,7 +1,7 @@
 {
   "url": "", 
-  "div_table": "tableBombas", 
-  "id_tabla": "tableBombas", 
+  "div_table": "bombas", 
+  "id_tabla": "bombas", 
   "columns": [
     {
       "bVisible": "F",

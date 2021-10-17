@@ -312,12 +312,14 @@ var grid = {
             	$("#dialog-alert-aceptar").click(function(){
 					var row_selected = $( "#" + grid_id ).DataTable().row('.row_selected').data();
     				oGenerales.fnConsultaCMD( {cmd: "CMDBORRADATO", tabla: grid_id, id: row_selected[0]}, function(resp){
-            			var titulo_msg = ( resp.msg == "Error" ) ? 'Error' : 'Mensaje';
-		        		var tipo_msg = ( resp.msg == "Error" ) ? 'error' : '';
-		        		var text_msg = ( resp.msg == "Error" ) ? 'Ocurrió un error' : 'Registro eliminado correctamente';
+            			var titulo_msg = ( typeof resp['error'] != "undefined" ) ? 'Error' : 'Mensaje';
+		        		var tipo_msg = ( typeof resp['error'] != "undefined" ) ? 'error' : '';
+		        		var text_msg = ( typeof resp['error'] != "undefined" ) ? 'Ocurrió un error' : 'Registro eliminado correctamente';
 		        		oGenerales.fnNotificacion( tipo_msg, titulo_msg, text_msg );
 		        		if( resp.msg != "Error" )
 		        			grid.cargaInformacion( grid_id, '{}' );
+		        			$( ".habilitaRow" ).prop( 'disabled', false );
+		        			$("#dialog-confirm").modal('hide');
             		} );
 				});
             	btnRmv.click(function(){
@@ -327,8 +329,8 @@ var grid = {
             	/*$('#'+grid_id+'_wrapper').before( btnAdd );
             	$('#'+grid_id+'_wrapper').before( '&nbsp;' );
             	$('#'+grid_id+'_wrapper').before( btnEdit );
-            	$('#'+grid_id+'_wrapper').before( '&nbsp;' );
-            	$('#'+grid_id+'_wrapper').before( btnRmv );*/
+            	$('#'+grid_id+'_wrapper').before( '&nbsp;' );*/
+            	$('#'+grid_id+'_wrapper').before( btnRmv );
 	            grid.cargaInformacion( grid_id, '{}' ); // Se encargará de llenar la tabla dinámica con los registros, después de ejecutar el query
 	            grid.PopUpFiltros( conf_grid ); // Genera forma de filtros
 			},
