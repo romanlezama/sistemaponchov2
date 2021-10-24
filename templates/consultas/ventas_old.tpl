@@ -25,5 +25,5 @@
 	</div><!-- /main-content -->
 </div><!-- /main -->
 <script>
-	grid.crear( "ventasclientes", $("#areaGrid") );
+	grid.crear( "ventas", $("#areaGrid") );
 </script>

@@ -1,7 +1,7 @@
 {
   "url": "", 
-  "div_table": "bombas", 
-  "id_tabla": "bombas", 
+  "div_table": "tableBombas", 
+  "id_tabla": "tableBombas", 
   "columns": [
     {
       "bVisible": "F",
@@ -10,8 +10,7 @@
       "tipo": "NOSELECT",
       "campo": "id",
       "rango": "",
-      "sWidth": 15,
-      "pos": 0
+      "sWidth": 15
     },
     {
       "bVisible": "T", 
@@ -20,8 +19,7 @@
       "tipo": "text", 
       "campo": "claveBomba", 
       "rango": "igual",
-      "sWidth": 10,
-      "pos": 1
+      "sWidth": 10
     }, 
     {
       "bVisible": "T", 
@@ -30,8 +28,7 @@
       "tipo": "date", 
       "campo": "fechaCorte",
       "rango": "lils", 
-      "sWidth": 10,
-      "pos": 2
+      "sWidth": 10
     }, 
     {
       "bVisible": "T", 
@@ -40,8 +37,7 @@
       "tipo": "moneda", 
       "campo": "totalVenta", 
       "rango": "lils",
-      "sWidth": 10,
-      "pos": 3
+      "sWidth": 10
     },
     {
       "bVisible": "T", 
@@ -50,8 +46,7 @@
       "tipo": "date", 
       "campo": "fechaCarga",
       "rango": "lils", 
-      "sWidth": 10,
-      "pos": 4
+      "sWidth": 10
     }
   ], 
   "visible_table": "T"

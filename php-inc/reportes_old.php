@@ -13,12 +13,6 @@ include("db.php");
 $nombre      	= $_POST["nombre_reporte"];
 $tipo        	= $_POST["tipo_reporte"];
 $filtro_json 	= $_POST["filtro_json"];
-$xls = false;
-if(isset($_POST['download_by'])){
-  if($_POST['download_by'] == 'xls'){
-    $xls = true;
-  }
-}
 if ($nombre == "" || $tipo == "" || $filtro_json == "") {
 	$protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
     header($protocol . ' ' . 403 . ' ' . 'Method Not Allowed');
@@ -63,16 +57,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
-$columnHeader = '';  
-if($nombre == "bombas"){
-  $columnHeader = "ID\tClave de la Bomba\tFecha de Corte\tVenta\tFecha de Carga";  
+
+if($nombre == "tableBombas"){
   $sql = "SELECT id, claveBomba, fechaCorte, totalVenta, fechaCarga FROM bombas";
   if($filtro_json != "{}"){
     $sql .= " WHERE " . $filtro_json;
     $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
   }
 }else{
-  $columnHeader = "ID\tNombre del cliente\tFecha de Venta\tVenta\tFecha de Carga";
   $sql = "SELECT v.id, c.nombreCliente, v.fechaVenta, v.totalVenta, v.fechaCarga FROM ventasclientes v JOIN clientes c WHERE v.idCliente = c.id";
   if($filtro_json != "{}"){
     $sql .= " AND " . $filtro_json;
@@ -80,48 +72,18 @@ if($nombre == "bombas"){
   }
 }
 
+$result = $conn->query($sql);
 
+$clientes = array();
 
-// ===========================================================================================================
-if($xls){
-  //$conn = new mysqli('localhost', 'root', '');  
-
-  $result = $conn->query($sql);
-  $setData = '';  
-  if ($result->num_rows > 0) {
-    while($row = $result->fetch_row()) {
-      $rowData = '';  
-      foreach ($row as $value) {  
-          $value = '"' . $value . '"' . "\t";  
-          $rowData .= $value;  
-      }  
-      $setData .= trim($rowData) . "\n";  
-    }
-  } 
-  header("Content-type: application/octet-stream");  
-  header("Content-Disposition: attachment; filename=".$nombre.".xls");  
-  header("Pragma: no-cache");  
-  header("Expires: 0");  
-    
-  echo ucwords($columnHeader) . "\n" . $setData . "\n";  
-}else{
-  $result = $conn->query($sql);
-
-  $clientes = array();
-
-  if ($result->num_rows > 0) {
-    while($row = $result->fetch_row()) {
-      //$clientes[ $row["id"] ] = $row["id"];
-      array_push($clientes, $row);
-    }
+if ($result->num_rows > 0) {
+  while($row = $result->fetch_row()) {
+    //$clientes[ $row["id"] ] = $row["id"];
+    array_push($clientes, $row);
   }
-  echo json_encode( array(
-    'data' => $clientes,
-    'cnd' => array('condiciones' => $condiciones)
-  ) );
-
 }
-// ===========================================================================================================
-
-
+echo json_encode( array(
+  'data' => $clientes,
+  'cnd' => array('condiciones' => $condiciones)
+) );
 ?>

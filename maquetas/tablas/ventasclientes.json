@@ -1,7 +1,7 @@
 {
   "url": "", 
-  "div_table": "bombas", 
-  "id_tabla": "bombas", 
+  "div_table": "ventasclientes", 
+  "id_tabla": "ventasclientes", 
   "columns": [
     {
       "bVisible": "F",
@@ -15,30 +15,31 @@
     },
     {
       "bVisible": "T", 
-      "sTitle": "Clave de la Bomba", 
+      "sTitle": "Nombre del Cliente", 
       "filtrodef": "", 
       "tipo": "text", 
-      "campo": "claveBomba", 
+      "campo": "c.nombreCliente", 
       "rango": "igual",
       "sWidth": 10,
-      "pos": 1
-    }, 
+      "pos": 1,
+      "editable": false
+    },
     {
       "bVisible": "T", 
-      "sTitle": "Fecha de Corte", 
+      "sTitle": "Fecha de Venta", 
       "filtrodef": "", 
       "tipo": "date", 
-      "campo": "fechaCorte",
+      "campo": "v.fechaVenta",
       "rango": "lils", 
       "sWidth": 10,
       "pos": 2
-    }, 
+    },
     {
       "bVisible": "T", 
       "sTitle": "Venta", 
       "filtrodef": "", 
       "tipo": "moneda", 
-      "campo": "totalVenta", 
+      "campo": "v.totalVenta", 
       "rango": "lils",
       "sWidth": 10,
       "pos": 3
@@ -48,7 +49,7 @@
       "sTitle": "Fecha de Carga", 
       "filtrodef": "", 
       "tipo": "date", 
-      "campo": "fechaCarga",
+      "campo": "v.fechaCarga",
       "rango": "lils", 
       "sWidth": 10,
       "pos": 4

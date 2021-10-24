@@ -119,11 +119,8 @@ var forma = {
 
 			var mxl = ( e.maxlength !== 0 && e.maxlength !== "0" ) ? 'maxlength="'+e.maxlength+'"' : ''; // {String} Cantidad de caracteres admitidos en el campo
 			var rdo = ''; // {String} Si el elemento es de solo lectura
-			if( e.rdonly === "T" ){
+			if( e.rdonly === "T" )
 				rdo = ( e.tipo.match( /select|radio|radio_end/g ) ) ? 'disabled' : 'readonly';
-				if(e.tipo == 'text')
-					rdo = 'readonly disabled';
-			}
 			var a_sbt = e.label.split( '\\n' );// {String} sub-etiqueta
 			var sbt = ( typeof a_sbt[1] !== "undefined" ) ? a_sbt[1] : '';
 			var btn_add = false; // {bool} true si se podrá agregar más de un registro similar, false si es único
@@ -327,25 +324,17 @@ var forma = {
 					form.append( add_elemento( e.label, sbt, e.id, e.name, email, 'envelope-o' ) );
 					break;
 				case "date": // Agrega campo de tipo fecha, al recibir el focus, muestra date-picker para seleccionar una fecha específica
-					var confDate = {
-						format: 'dd/mm/yyyy',
-						//daysOfWeekDisabled: [0,6], ------------------> Deshabilita el Sábado y Domingo
-					}
-					var withDefault = false;
-					if( dfv !== "" ){
-						withDefault = true;
-						var toDefault = new Date(dfv.replace(/-/g, '/'));
+					if( dfv !== "" )
 						dfv = moment(dfv).format('DD-MM-YYYY HH:mm');
-					}
 					var defDate = (e.filtro=="hoy") ? "date_hoy" : "";
 					var date = $( '<input id="'+e.id+'" class="form-control date_picker parsley-validated '+defDate+'" type="text" name="'+e.name+'" placeholder="'+plh+'" value="'+dfv+'" '+mxl+' '+rdo+'/>' );
 					form.append( add_elemento( e.label, sbt, e.id, e.name, date, 'calendar' ) );
-					date.datepicker(confDate).on('changeDate', function(ev){
+					date.datepicker({
+				        format: 'dd/mm/yyyy'
+				        //daysOfWeekDisabled: [0,6], ------------------> Deshabilita el Sábado y Domingo
+				    }).on('changeDate', function(ev){
 					    $(this).datepicker('hide');
 					});
-					if (withDefault){
-						date.datepicker('setDate', toDefault);
-					}
 					break;
 				case "datetime":
 					if( dfv !== "" )
@@ -513,31 +502,18 @@ var forma = {
         	dataType : 'json',
         	beforeSubmit : function( formData, jqForm, options ){ // Configuro la información antes de enviarla
         		showLoadingOverlay();
-        		/*$( "input:disabled" ).each(function(){
+        		$( "input:disabled" ).each(function(){
         			formData.push({
         				name: $(this).attr("name"),
         				required: false,
         				type: "text",
         				value: $(this).val()
         			});
-        		});*/
+        		});
         		if (forma.clave == "uploadxls"){
         			$("#bombas").html('');
         			$("#clientes").html('');
         			$("#saveInfo").remove();
-        		}
-        		for(var conta = 0; conta<formData.length; conta++){
-        			if( /__moneda$/g.test( formData[conta].name ) ){
-        				formData[conta]['value'] = parseFloat( formData[conta].value.replace(/,/g,"") );
-        				//formData[conta]['name'] = formData[conta].name.replace('__moneda', '');
-        			}
-        			if( /\w\./g.test( formData[conta].name ) ){
-        				formData[conta]['name'] = formData[conta].name.split('.')[1];
-        			}
-        			if( /\d+\/\d+\/\d+/g.test( formData[conta].value ) ){
-        				var arValue = formData[conta].value.split('/');
-        				formData[conta]['value'] = arValue[2] +'-'+ arValue[1] +'-'+ arValue[0];
-        			}
         		}
         	},
         	success : function( resp ){ // Manejo la respuesta del servidor una vez procesados los datos enviados
@@ -552,7 +528,6 @@ var forma = {
 					form[0].reset();
 					if( espacio.attr('id') != "espacio" ){
 						$('#dialog-form').modal( 'hide' );
-						grid.cargaInformacion( forma.clave.replace('formEdit', ''), '{}' );
 					}
 				}
 				if( $('input[name="cmd"]').val() == "CMDCARGAXLS" ){

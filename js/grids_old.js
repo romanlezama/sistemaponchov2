@@ -113,10 +113,10 @@ var grid = {
 								'<table id="'+grid_id+'" class="table table-sorting table-striped table-hover datatable"></table>'+
 							'</div>'+
 							'<div id="folios_totales"></div>'+
-							'<div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix" style="text-align: right">'+
-								//'<button class="btn btn-danger" onclick="descarga_archivo(\''+grid_id+'\',\'PDF\')"><i class="fa fa-download"></i>PDF</button>&nbsp;'+
+							/*'<div class="fg-toolbar ui-toolbar ui-widget-header ui-corner-tl ui-corner-tr ui-helper-clearfix" style="text-align: right">'+
+								'<button class="btn btn-danger" onclick="descarga_archivo(\''+grid_id+'\',\'PDF\')"><i class="fa fa-download"></i>PDF</button>&nbsp;'+
 								'<button class="btn btn-success" onclick="descarga_archivo(\''+grid_id+'\',\'XLS\')"><i class="fa fa-download"></i>XLS</button>'+
-							'</div>'+
+							'</div>'+*/
 						'</div>');
 	            var cols_new = new Array(); // @var {array} contendrá las nuevas configuraciones de columnas, después de ser procesadas
 	            var cols = conf_grid.columns; // @var {array} Columnas predefinidas en el json
@@ -297,64 +297,7 @@ var grid = {
             	});
 
             	btnEdit.click(function(){
-
             		var row_selected = $( "#" + grid_id ).DataTable().row('.row_selected').data();
-
-            		$.ajax({
-						url : 'maquetas/tablas/' + grid_id + '.json',
-						dataType : 'json',
-						cache : false,
-						success: function(confGrid){
-							//console.log(confGrid);
-							var colsGrid = confGrid.columns;
-							formEdit = {
-								"forma": { "clave": "formEdit"+grid_id, "usuario": "", "menu": "", "tituloformulario": "Editar Registro", "descripcion": "", "action": "", "uploadFile": "T" },
-								"elementos": []
-							}
-							for( var i=0; i<colsGrid.length; i++ ){
-								var dataCol = colsGrid[i];
-								var elementToForm = {
-									"label": dataCol.sTitle,
-									"name": dataCol.campo,
-									"id": dataCol.campo,
-									"tipo": "hidden",
-									"rdonly": "F","maxlength": "0",
-									"defaultvalue": row_selected[ dataCol.pos ],"filtro": "F","required": "","message": ""
-								}
-								if( typeof dataCol.editable !== "undefined" && dataCol.editable == false )
-									elementToForm.rdonly = "T";
-								switch( dataCol.tipo ){
-				            		case 'date':
-				            		case 'fecha':
-				            			elementToForm.tipo = "date";
-				            			break;
-				            		case 'moneda':
-				            			elementToForm.tipo = "moneda";
-				            			elementToForm.defaultvalue = row_selected[ dataCol.pos ].replace(/,/g, '')
-				            			break;
-				            		case 'NOSELECT':
-				            			elementToForm.tipo = "hidden";
-				            			break;
-				            		default :
-				            			elementToForm.tipo = "text";
-				            			break;
-								}
-								formEdit.elementos.push( elementToForm );
-							}
-							formEdit.elementos.push( 
-								{ "label": "", "name": "cmd", "id": "cmd", "tipo": "hidden", "rdonly": "F", "maxlength": "0", "defaultvalue": "CMDEDITRECORD", "filtro": "F", "required": "", "message": ""},
-								{ "label": "", "name": "tablaBD", "id": "TablaBD", "tipo": "hidden", "rdonly": "F", "maxlength": "0", "defaultvalue": grid_id, "filtro": "F", "required": "", "message": ""},
-								{ "label": "", "name": "guardar", "id": "guardar", "tipo": "submit", "rdonly": "F", "maxlength": "0", "defaultvalue": "Guardar", "filtro": "F", "required": "F", "message": ""} 
-							);
-							//console.log(formEdit);
-							forma.crear(formEdit, $('#dialog-form-content') );
-							$('#dialog-form').modal( 'show' );
-						}
-					})
-
-
-
-            		/*var row_selected = $( "#" + grid_id ).DataTable().row('.row_selected').data();
             		oGenerales.fnConsultaCMD( {cmd: "CMDRECFORMAEDIT", params: {forma: grid_id, id: row_selected[0], edit: "si"}}, function(oInfoForm){
             			oInfoForm.elementos.push({"label": "","name": "edit","id": "edit","tipo": "hidden","rdonly": "F","maxlength": "0","defaultvalue": "yes","filtro": "F","required": "","message": ""});
             			forma.crear(oInfoForm, $('#dialog-form-content') );
@@ -363,20 +306,18 @@ var grid = {
 					    $("#dialog-form-content").html('. . .');
 					    $("#title_popup").html('Cargando Contenido');
 					});
-            		$('#dialog-form').modal( 'show' );*/
+            		$('#dialog-form').modal( 'show' );
             	});
 
             	$("#dialog-alert-aceptar").click(function(){
 					var row_selected = $( "#" + grid_id ).DataTable().row('.row_selected').data();
     				oGenerales.fnConsultaCMD( {cmd: "CMDBORRADATO", tabla: grid_id, id: row_selected[0]}, function(resp){
-            			var titulo_msg = ( typeof resp['error'] != "undefined" ) ? 'Error' : 'Mensaje';
-		        		var tipo_msg = ( typeof resp['error'] != "undefined" ) ? 'error' : '';
-		        		var text_msg = ( typeof resp['error'] != "undefined" ) ? 'Ocurrió un error' : 'Registro eliminado correctamente';
+            			var titulo_msg = ( resp.msg == "Error" ) ? 'Error' : 'Mensaje';
+		        		var tipo_msg = ( resp.msg == "Error" ) ? 'error' : '';
+		        		var text_msg = ( resp.msg == "Error" ) ? 'Ocurrió un error' : 'Registro eliminado correctamente';
 		        		oGenerales.fnNotificacion( tipo_msg, titulo_msg, text_msg );
 		        		if( resp.msg != "Error" )
 		        			grid.cargaInformacion( grid_id, '{}' );
-		        			$( ".habilitaRow" ).prop( 'disabled', false );
-		        			$("#dialog-confirm").modal('hide');
             		} );
 				});
             	btnRmv.click(function(){
@@ -384,10 +325,10 @@ var grid = {
 					$("#dialog-confirm").modal('show');
             	});
             	/*$('#'+grid_id+'_wrapper').before( btnAdd );
-            	$('#'+grid_id+'_wrapper').before( '&nbsp;' );*/
+            	$('#'+grid_id+'_wrapper').before( '&nbsp;' );
             	$('#'+grid_id+'_wrapper').before( btnEdit );
             	$('#'+grid_id+'_wrapper').before( '&nbsp;' );
-            	$('#'+grid_id+'_wrapper').before( btnRmv );
+            	$('#'+grid_id+'_wrapper').before( btnRmv );*/
 	            grid.cargaInformacion( grid_id, '{}' ); // Se encargará de llenar la tabla dinámica con los registros, después de ejecutar el query
 	            grid.PopUpFiltros( conf_grid ); // Genera forma de filtros
 			},
@@ -594,15 +535,7 @@ var grid = {
 function descarga_archivo( id_repo, tipo_dwl ){
 	var espacio = $("#espacio");
 	var filtro_json = JSON.stringify( $("#form_filtros").serializeObject() );
-	if(filtro_json != '{}'){
-		filtro_json = grid.get_filters_format(filtro_json);
-	}
-    espacio.append("<form action='process.php' id='dwlAcuse' method='POST'>"+
-    	"<input type='hidden' value='"+filtro_json+"' name='filtro_json' />"+
-    	"<input type='hidden' value='"+id_repo+"' name='nombre_reporte' />"+
-    	"<input type='hidden' value='"+tipo_dwl+"' name='tipo_reporte' />"+
-    	"<input type='hidden' value='xls' name='download_by' />"+
-    	"<input type='hidden' value='CMDREPORTES' name='cmd' /></form>");
+    espacio.append("<form action='/process.php' id='dwlAcuse' method='POST'><input type='hidden' value='"+filtro_json+"' name='filtro_json' /><input type='hidden' value='"+id_repo+"' name='nombre_reporte' /><input type='hidden' value='"+tipo_dwl+"' name='tipo_reporte' /><input type='hidden' value='CMDREPORTES' name='cmd' /></form>");
     $("#dwlAcuse").submit();
     $("#dwlAcuse").remove();
 }

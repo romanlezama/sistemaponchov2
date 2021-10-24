@@ -64,7 +64,6 @@ if (!$invalidateCMD) {
 		case "CMDADDCLIENT": include("php-inc/guardacliente.php"); break;
 		case "CMDADDTEXT4CLIENT": include("php-inc/guardatextcliente.php"); break;
 		case "GETTEXT4CLIENT": include("php-inc/gettxtsclientes.php"); break;
-		case "CMDEDITRECORD": include("php-inc/updateinforecord.php"); break;
 	    // //Login cmd CMDLOGIN
 	    // case "CMDLOGIN": include("$inc_dir/procesos/usuarios/vallogin.php");break;
 
@@ -76,8 +75,6 @@ if (!$invalidateCMD) {
 
      //  //Recupera Catalogo
 	  case "CMDREPORTES":include("php-inc/reportes.php");break;
-	  // Borra registro
-	  case "CMDBORRADATO":include("php-inc/borradato.php");break;
 
      //  //Recupera datos iniciales para OT
 	    // case "CMDDATGENERAL":include("$inc_dir/procesos/ordentrabajo/otgeneral.php");break;
