@@ -64,21 +64,53 @@ if ($conn->connect_error) {
   die("Connection failed: " . $conn->connect_error);
 }
 $columnHeader = '';  
-if($nombre == "bombas"){
-  $columnHeader = "ID\tClave de la Bomba\tFecha de Corte\tVenta\tFecha de Carga";  
-  $sql = "SELECT id, claveBomba, fechaCorte, totalVenta, fechaCarga FROM bombas";
-  if($filtro_json != "{}"){
-    $sql .= " WHERE " . $filtro_json;
-    $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
-  }
-}else{
-  $columnHeader = "ID\tNombre del cliente\tFecha de Venta\tVenta\tFecha de Carga";
-  $sql = "SELECT v.id, c.nombreCliente, v.fechaVenta, v.totalVenta, v.fechaCarga FROM ventasclientes v JOIN clientes c WHERE v.idCliente = c.id";
-  if($filtro_json != "{}"){
-    $sql .= " AND " . $filtro_json;
-    $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
-  }
+
+switch ($nombre) {
+  case 'bombas':
+    $columnHeader = "ID\tClave de la Bomba\tFecha de Corte\tVenta\tFecha de Carga";  
+    $sql = "SELECT id, claveBomba, fechaCorte, totalVenta, fechaCarga FROM bombas";
+    if($filtro_json != "{}"){
+      $sql .= " WHERE " . $filtro_json;
+      $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
+    }
+    break;
+
+  case 'ventasclientes':
+    $columnHeader = "ID\tNombre del cliente\tFecha de Venta\tVenta\tFecha de Carga";
+    $sql = "SELECT v.id, c.nombreCliente, v.fechaVenta, v.totalVenta, v.fechaCarga FROM ventasclientes v JOIN clientes c WHERE v.idCliente = c.id";
+    if($filtro_json != "{}"){
+      $sql .= " AND " . $filtro_json;
+      $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
+    }
+    break;
+  
+  case 'tickets':
+    $columnHeader = "ID\tNombre del cliente\tFecha de Venta\tVenta\tFecha de Carga\tFolio\tTarjeta";
+    $sql = "SELECT t.id, c.nombreCliente, t.fechaVenta, t.montoVenta, t.fechaCarga, t.folio, t.numeroTarjeta FROM tickets t JOIN clientes c WHERE t.id_cliente = c.id";
+    if($filtro_json != "{}"){
+      $sql .= " AND " . $filtro_json;
+      $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
+    }
+    break;
+  default:
+    // code...
+    break;
 }
+// if($nombre == "bombas"){
+//   $columnHeader = "ID\tClave de la Bomba\tFecha de Corte\tVenta\tFecha de Carga";  
+//   $sql = "SELECT id, claveBomba, fechaCorte, totalVenta, fechaCarga FROM bombas";
+//   if($filtro_json != "{}"){
+//     $sql .= " WHERE " . $filtro_json;
+//     $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
+//   }
+// }else{
+//   $columnHeader = "ID\tNombre del cliente\tFecha de Venta\tVenta\tFecha de Carga";
+//   $sql = "SELECT v.id, c.nombreCliente, v.fechaVenta, v.totalVenta, v.fechaCarga FROM ventasclientes v JOIN clientes c WHERE v.idCliente = c.id";
+//   if($filtro_json != "{}"){
+//     $sql .= " AND " . $filtro_json;
+//     $condiciones = str_replace( array('>=', '<=', 'LIKE', 'AND'), array('mayor o igual que', 'menor o igual que', 'contiene', 'y'), $filtro_json );
+//   }
+// }
 
 
 

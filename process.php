@@ -59,11 +59,14 @@ if (!$invalidateCMD) {
 	switch ($cmd) {
 		// Cargar y procesar documento de Excel
 		case "CMDCARGAXLS": include("php-inc/uploadxlsx.php"); break;
+		case "CMDUPLOADTICKETS": include("php-inc/uploadtickets.php"); break;
 		case "GETCLIENTES": include("php-inc/getclientes.php"); break;
 		case "CMDSAVEINFO": include("php-inc/guardainfo.php"); break;
+		case "CMDSAVEINFOTICKETS": include("php-inc/guardainfoTickets.php"); break;
 		case "CMDADDCLIENT": include("php-inc/guardacliente.php"); break;
 		case "CMDADDTEXT4CLIENT": include("php-inc/guardatextcliente.php"); break;
 		case "GETTEXT4CLIENT": include("php-inc/gettxtsclientes.php"); break;
+		case "GETFOLIOSEXISTS": include("php-inc/getfoliosexists.php"); break;
 		case "CMDEDITRECORD": include("php-inc/updateinforecord.php"); break;
 	    // //Login cmd CMDLOGIN
 	    // case "CMDLOGIN": include("$inc_dir/procesos/usuarios/vallogin.php");break;

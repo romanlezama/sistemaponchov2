@@ -1,0 +1,51 @@
+{
+	"forma": {
+		"clave": "uploadtickets",
+		"usuario": "",
+		"menu": "",
+		"tituloformulario": "Cargar Documento",
+		"descripcion": "",
+		"action": "",
+		"uploadFile": "T"
+	},
+	"elementos": [
+		{
+			"label": "Excel",
+			"name": "file",
+			"id": "file",
+			"tipo": "file",
+			"aceptar": "excel",
+			"rdonly": "F",
+			"maxlength": "0",
+			"defaultvalue": "",
+			"filtro": "T",
+			"required": "T",
+			"message": "Debe seleccionar un documento"
+		},
+		{
+			"label": "",
+			"name": "cmd",
+			"id": "cmd",
+			"tipo": "hidden",
+			"rdonly": "F",
+			"maxlength": "0",
+			"defaultvalue": "CMDUPLOADTICKETS",
+			"filtro": "F",
+			"required": "",
+			"message": ""
+		},
+		{
+			"label": "",
+			"name": "guardar",
+			"id": "guardar",
+			"tipo": "submit",
+			"rdonly": "F",
+			"maxlength": "0",
+			"defaultvalue": "Cargar Documento",
+			"filtro": "F",
+			"required": "F",
+			"message": ""
+		}
+	]
+}
+

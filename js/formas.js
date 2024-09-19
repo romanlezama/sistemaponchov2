@@ -521,9 +521,10 @@ var forma = {
         				value: $(this).val()
         			});
         		});*/
-        		if (forma.clave == "uploadxls"){
+        		if (forma.clave == "uploadxls" || forma.clave == 'uploadtickets'){
         			$("#bombas").html('');
         			$("#clientes").html('');
+        			$("#tickets").html('');
         			$("#saveInfo").remove();
         		}
         		for(var conta = 0; conta<formData.length; conta++){
@@ -681,6 +682,154 @@ var forma = {
                     	});
                     });
                     $("#profile-tab").append( btnSaveInfo );
+				} else if( $('input[name="cmd"]').val() == "CMDUPLOADTICKETS" ){
+					clientes = oGenerales.fnGetInfoFromCMD({cmd: 'GETCLIENTES'});
+                    console.log( 'Clientes desde la BD '+JSON.stringify(clientes) );
+                    var oClientes = {};
+                    var aClientesSelected = [];
+                    var info_to_save = {'folios': {}}
+                    $.each( clientes, function(nomc, idc){
+                    	oClientes[ idc ] = nomc;
+                    } );
+                    txtsClientes = oGenerales.fnGetInfoFromCMD({cmd: 'GETTEXT4CLIENT'});
+                    console.log(txtsClientes);
+                    var folios = [];
+                    for( var i=0; i<resp.length; i++ ){
+                    	folios.push( "'"+(resp[ i ][ 'folio' ].toString())+"'" );
+                    }
+                    folsExists = oGenerales.fnGetInfoFromCMD({cmd: 'GETFOLIOSEXISTS', 'folios': JSON.stringify(folios)});
+                    console.log(folsExists);
+                    for( var i=0; i<resp.length; i++ ){
+                    	var info_ticket = resp[i];
+                    	var cliente = info_ticket['cliente'];
+                    	var folio = info_ticket['folio'];
+                    	var p_folio = $('<p class="toSaveFolio" data-key="folio" data-val="'+folio+'" data-folio="'+folio+'" style="font-weight: bold; background-color: khaki; padding: 5px;">FOLIO: '+folio+' </p>');
+                    	if( folsExists['total_folios'].includes(folio.toString()) ){
+                    		var info_folio = folsExists['info_folios'][folio];
+                    		p_folio.append('<code>Este folio ya fue registrado el '+info_folio['fechaCarga']+'</code>');
+                    	}
+                    	var row = $('<div></div>');
+                    	row.append(p_folio);
+                    	if(typeof clientes[cliente] == "undefined" ){
+                            console.error("No se encontro el cliente "+cliente);
+                            clienteLower = cliente.toLowerCase().replace(/ /g, '_');
+                            if(typeof txtsClientes[clienteLower] != "undefined"){
+	                            row.append('<p class="data-row">'+
+		                                '<span class="data-name">Cliente</span>'+
+		                                '<span class="data-value toSaveFolio" data-key="cliente" data-val="'+(txtsClientes[ clienteLower ])+'" data-folio="'+folio+'">'+cliente+' <i>['+oClientes[txtsClientes[ clienteLower ]]+']</i></span>'+
+		                            '</p>');
+	                            aClientesSelected.push( txtsClientes[ clienteLower ] );
+                            }else{
+	                            row.append('<p class="data-row">'+
+		                                '<span class="data-name">Cliente</span>'+
+		                                '<span class="data-value"><nombrecliente>'+cliente+'</nombrecliente><code>Este cliente no se encuentra en la Base de Datos</code></span>'+
+		                                '<a href="#" data-key="cliente" data-textocliente="'+cliente+'" data-type="select2" data-folio="'+folio+'" class="editInLine">Seleccionar</a>'+
+		                            '</p>');
+                            }
+                        } else {
+                            row.append('<p class="data-row">'+
+		                                '<span class="data-name">Cliente</span>'+
+		                                '<span class="data-value toSaveFolio" data-key="cliente" data-val="'+clientes[cliente]+'" data-folio="'+folio+'">'+cliente+'</span>'+
+		                            '</p>');
+                            aClientesSelected.push( clientes[ cliente ] );
+                        }
+                        if(info_ticket['monto'] == ""){
+                        	info_ticket['monto'] = 0;
+                        }
+                        row.append('<p class="data-row">'+
+		                                '<span class="data-name">Fecha de venta</span>'+
+		                                '<span class="data-value toSaveFolio" data-key="fecha_de_venta" data-val="'+info_ticket['fecha_de_venta']+'" data-folio="'+folio+'">'+info_ticket['fecha_de_venta']+'</span>'+
+		                            '</p>'+
+		                            '<p class="data-row">'+
+		                                '<span class="data-name">Monto</span>'+
+		                                '<span class="data-value toSaveFolio" data-key="monto" data-val="'+info_ticket['monto']+'" data-folio="'+folio+'">'+renderers.to_pesos(info_ticket['monto'])+'</span>'+
+		                            '</p>'+
+		                            '<p class="data-row">'+
+		                                '<span class="data-name">Número de tarjeta</span>'+
+		                                '<span class="data-value toSaveFolio" data-key="numero_de_tarjeta" data-val="'+info_ticket['numero_de_tarjeta']+'" data-folio="'+folio+'">'+info_ticket['numero_de_tarjeta']+'</span>'+
+		                            '</p>')
+                        $("#tickets").append( row );
+                    }
+                    //*******************************************
+					/*	Seleccionar Cliente inline
+					/********************************************/                    
+					var aClientes = [];
+                    $.each( clientes, function(nomc, idc){
+                    	if( ! aClientesSelected.includes( idc ) ){
+                    		aClientes.push({ value: idc, text: nomc });
+                    	}
+                    } );
+                    $('.editInLine').editable({
+						source: aClientes,
+						url: 'process.php',
+						send: 'always',
+						params: function(params) {
+							var newParams = {};
+						    newParams.cmd = "CMDADDTEXT4CLIENT";
+						    newParams.textCliente = $(this).data('textocliente').toLowerCase().replace(/ /g, '_');
+						    newParams.idCliente = params.value;
+						    $(this).data('val', params.value);
+						    return newParams;
+						},
+						success: function(responseText, newValue) {
+							response = JSON.parse(responseText);
+						    $(this).parent().find('code').remove();
+							if( response.msg == "Ok" ){
+								oGenerales.fnNotificacion( '', 'Mensaje', "Texto relacionado correctamente." );
+							}else{
+								oGenerales.fnNotificacion( 'error', 'Error', "Ocurrió un error" );
+								return "Error al actualizar";
+							}
+						},
+						select2: {
+							width: 200,
+							placeholder: 'Clientes',
+							allowClear: true
+						}
+					});
+					var btnSaveInfo = $('<button type="button" class="btn btn-success" id="saveInfo">Guardar Información</button>');
+					btnSaveInfo.click(function(){
+                    	oGenerales.fnAlert({
+                    		msg: '<strong>La información será guardada en la Base de Datos, los clientes marcados en rojo no se guardaran</strong>',
+                    		fnAccept: function(){
+                    			//showLoadingOverlay();
+                    			info_to_save[ 'folios' ] = {}
+                    			$(".editInLine").each(function(index){
+                    				var id_client = $(this).data('val');
+                    				var f = $(this).data('folio');
+                    				if( ! folsExists['total_folios'].includes(f.toString()) ){
+                    					if(typeof id_client != "undefined"){
+											info_to_save[ 'folios' ][f] = {};
+	                    				}
+	                    				info_to_save['folios'][f][ 'cliente' ] = parseInt(id_client);
+                    				}
+                    			});
+                    			$(".toSaveFolio").each(function(index){
+                    				k = $(this).data('key');
+                    				v = $(this).data('val');
+                    				f = $(this).data('folio');
+                    				if( ! folsExists['total_folios'].includes(f.toString()) ){
+                    					if(typeof info_to_save['folios'][f] == "undefined"){
+											info_to_save['folios'][f] = {};
+	                    				}
+	                    				info_to_save['folios'][f][k] = v;
+                    				}
+                    			});
+								//console.log(info_to_save);
+		                    	oGenerales.fnConsultaCMD({'cmd': 'CMDSAVEINFOTICKETS', 'info_to_save': JSON.stringify( info_to_save )}, function(data){
+		                    		hideLoadingOverlay();
+		                            if( /^Error:/.test(data.msg) ){
+		                                oGenerales.fnNotificacion('error', 'Error', 'Error al guardar la información');
+		                            } else{
+		                                oGenerales.fnNotificacion('msg', 'Mensaje', 'Información guardada correctamente');
+		                                btnSaveInfo.prop("disabled", true);
+		                            }
+		                            $("#dialog-confirm").modal('hide');
+		                    	}, false);
+                    		}
+                    	});
+                    });
+					$("#profile-tab").append( btnSaveInfo );
 				}
 				hideLoadingOverlay();
         	},

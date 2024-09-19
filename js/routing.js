@@ -21,6 +21,18 @@
 				window.location.href = "#/login/"
 			}
 		});
+		this.get('#/uploadtickets/', function(context) {
+			var iSesion = fnEvalSesion();
+			if(iSesion!=0){
+				$.ajax({ url: 'templates/cargatickets.tpl', cache: false,
+					success: function(data){
+						$("#espacio").html(data);
+					}
+				});
+			} else{
+				window.location.href = "#/login/"
+			}
+		});
 		this.get('#/login/', function(context) {
 			var iSesion = fnEvalSesion();
 			if(iSesion!=0){

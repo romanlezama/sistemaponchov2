@@ -1,9 +1,9 @@
 <?php 
-$uploadDir = 'C:\\xampp\\htdocs\\sistemaponchov2\\excel_files\\'; 
+$uploadDir = 'C:\\xampp\\htdocs\\sistemaponchov2\\excel_files_folios\\';
 $testsUbuntu = false;
 if($testsUbuntu){
     // Ubuntu
-    passthru ( "/usr/bin/python /var/www/html/sistemaponchov2/lee_excel.py '20210818120500'" );
+    passthru ( "/usr/bin/python /var/www/html/sistemaponchov2/lee_excel_folios.py 'carga_de_tickets'" );
 }
 else{
     $response = array( 
@@ -49,8 +49,8 @@ else{
      
     // Return response 
     if($uploadStatus == 1){
-        # passthru ( "C:\\Users\\ajuar\\AppData\\Local\\Programs\\Python\\Python39\\python  C:\\xampp\\htdocs\\sistemaponchov2\\lee_excel.py \"".$newNameDocto."\"" );
-        passthru ( "C:\\Users\\roman\\AppData\\Local\\Programs\\Python\\Python312\\python  C:\\xampp\\htdocs\\sistemaponchov2\\lee_excel.py \"".$newNameDocto."\"" );
+        # passthru ( "C:\\Users\\ajuar\\AppData\\Local\\Programs\\Python\\Python39\\python  C:\\xampp\\htdocs\\sistemaponchov2\\lee_excel_folios.py \"".$newNameDocto."\"" );
+        passthru ( "C:\\Users\\roman\\AppData\\Local\\Programs\\Python\\Python312\\python  C:\\xampp\\htdocs\\sistemaponchov2\\lee_excel_folios.py \"".$newNameDocto."\"" );
     } else {
         echo json_encode($response);
     }

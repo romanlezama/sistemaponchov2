@@ -83,7 +83,8 @@ def process_diesel_sheet( content_sheet ):
     text_with_date = ''
     for r in content_sheet:
         for c in r:
-            if re.match(r"(TEOTI|teoti|Teoti).*(\s+)?\((\s+)?5787(\s+)?\)", str(c)):
+            #if re.match(r"(TEOTI|teoti|Teoti).*(\s+)?\((\s+)?(\d+)(\s+)?\)", str(c)):
+            if re.match(r"(TEOTI|teoti|Teoti).*(\s+)?\((\s+)?(\d+(-\d+)?)(\s+)?\)", str(c)):
                 text_with_date = c
                 break
         if text_with_date:

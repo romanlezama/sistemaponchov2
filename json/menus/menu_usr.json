@@ -20,6 +20,13 @@
 					"tooltipmenu": "",
 					"deshabilitado": "F",
 					"submenus": []
+				},
+				{
+					"leyendamenu": "Folios de Tickets Cargados",
+					"accionmenu": "#/consultas/tickets/",
+					"tooltipmenu": "",
+					"deshabilitado": "F",
+					"submenus": []
 				}
 			]
 		},
@@ -29,6 +36,14 @@
 			"tooltipmenu": "",
 			"deshabilitado": "F",
 			"icon": "fa-edit",
+			"submenus": []
+		},
+		{
+			"leyendamenu": "Cargar Tickets",
+			"accionmenu": "#/uploadtickets/",
+			"tooltipmenu": "",
+			"deshabilitado": "F",
+			"icon": "fa-upload",
 			"submenus": []
 		}
 	]

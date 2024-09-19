@@ -1,0 +1,81 @@
+{
+  "url": "", 
+  "div_table": "tickets", 
+  "id_tabla": "tickets", 
+  "columns": [
+    {
+      "bVisible": "F",
+      "sTitle": "Id",
+      "filtrodef": "F",
+      "tipo": "NOSELECT",
+      "campo": "id",
+      "rango": "",
+      "sWidth": 15,
+      "pos": 0
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Nombre del Cliente", 
+      "filtrodef": "", 
+      "tipo": "text", 
+      "campo": "c.nombreCliente", 
+      "rango": "igual",
+      "sWidth": 10,
+      "pos": 1,
+      "editable": false
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Fecha de Venta", 
+      "filtrodef": "", 
+      "tipo": "date", 
+      "campo": "t.fechaVenta",
+      "rango": "lils", 
+      "sWidth": 10,
+      "pos": 2
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Venta", 
+      "filtrodef": "", 
+      "tipo": "moneda", 
+      "campo": "t.montoVenta", 
+      "rango": "lils",
+      "sWidth": 10,
+      "pos": 3
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Fecha de Carga", 
+      "filtrodef": "", 
+      "tipo": "date", 
+      "campo": "t.fechaCarga",
+      "rango": "lils", 
+      "sWidth": 10,
+      "pos": 4
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Folio", 
+      "filtrodef": "", 
+      "tipo": "text", 
+      "campo": "t.folio", 
+      "rango": "igual",
+      "sWidth": 10,
+      "pos": 1,
+      "editable": false
+    },
+    {
+      "bVisible": "T", 
+      "sTitle": "Tarjeta", 
+      "filtrodef": "", 
+      "tipo": "text", 
+      "campo": "t.numeroTarjeta", 
+      "rango": "igual",
+      "sWidth": 10,
+      "pos": 1,
+      "editable": false
+    }
+  ], 
+  "visible_table": "T"
+}
